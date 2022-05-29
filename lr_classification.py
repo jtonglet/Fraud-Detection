@@ -3,15 +3,12 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
-
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler, OneHotEncoder
 from sklearn.compose import ColumnTransformer
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import classification_report, roc_auc_score, confusion_matrix
-
-
 import warnings
 warnings.filterwarnings('ignore')
 
@@ -60,7 +57,7 @@ pipe_lr = Pipeline([('preprocessing',preprocessor),
                     ('classifier',lr)])
 pipe_lr.fit(X_train,y_train)
 
-
+#Print classification performance results on test set 
 pred_train = pipe_lr.predict(X_train)
 pred_test = pipe_lr.predict(X_test)
 print('----Results----')
@@ -70,8 +67,3 @@ print(' ')
 print('Classification Report Test Set')
 print(classification_report(y_test,pred_test))
 print('AUC Score Test Set : %s'%roc_auc_score(y_test,pred_test))
-
-
-
-
-
