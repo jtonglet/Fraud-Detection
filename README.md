@@ -15,7 +15,3 @@ Small fraud prediction project for the course Advanced Analytics @ KULeuven. Log
 ROC curve :
 
 ![](output/roc_curve.pdf?raw=true)
-
-
-##  TO DO
-Experiment with different class imbalance techniques (SMOTE, ADASYN, random oversampling, ...)
