@@ -10,7 +10,7 @@ data = pd.read_csv('fraud_dataset.csv',
                    decimal = ',')
 
 #Identify the features from the raw data that will be removed at the end
-keywords = ['_id','_date_','postal_code', '_time_']
+keywords = ['_id','_date_','postal_code', '_time_','_birth']
 columns_to_drop = [c for c in data.columns for k in keywords if k in c]
 
 
@@ -24,6 +24,10 @@ data['driver_claim_postal_code'] = data.apply(lambda row : row['driver_postal_co
 data['driver_policy_holder_postal_code'] = data.apply(lambda row : row['driver_postal_code'] == row['policy_holder_postal_code'],axis=1)
 data['driver_repair_postal_code'] = data.apply(lambda row : row['driver_postal_code'] == row['repair_postal_code'], axis =1)
 
+
+#Driver occurences in dataset
+driver_unique_count = data.groupby('driver_id').agg({'claim_id':'count'}).rename( columns = {'claim_id':'claim_count'})
+data['driver_claims_count'] = data['driver_id'].apply(lambda row : driver_unique_count.loc[row,'claim_count'])
 
 #ID matching features
 data['claim_driver_vehicle'] = data.apply(lambda row : row['claim_vehicle_id'] == row['driver_vehicle_id'], axis = 1)
@@ -148,6 +152,9 @@ data['repair_form'] = data['repair_form'].fillna('Missing')
 data['third_party_1_country'] = data['third_party_1_country'].fillna('Missing')
 data['third_party_2_country'] = data['third_party_2_country'].fillna('Missing')
 data['third_party_3_country'] = data['third_party_3_country'].fillna('Missing')
+data['third_party_1_vehicle_type'] = data['third_party_1_vehicle_type'].fillna('Missing')
+data['third_party_2_vehicle_type'] = data['third_party_2_vehicle_type'].fillna('Missing')
+data['third_party_3_vehicle_type'] = data['third_party_3_vehicle_type'].fillna('Missing')
 data['repair_country'] = data['repair_country'].fillna('Missing')
 data['third_party_1_injured'] = data['third_party_1_injured'].fillna('Missing')
 data['third_party_2_injured'] = data['third_party_2_injured'].fillna('Missing')
@@ -159,6 +166,8 @@ data['claim_vehicle_load'] = data['claim_vehicle_load'].fillna(np.mean(data['cla
 data['claim_vehicle_power'] = data['claim_vehicle_power'].fillna(np.mean(data['claim_vehicle_power']))
 data['policy_premium_100'] = data['policy_premium_100'].fillna(np.mean(data['policy_premium_100']))
 data['policy_coverage_1000'] = data['policy_coverage_1000'].fillna(np.mean(data['policy_coverage_1000']))
+data['driver_age'] = data['driver_age'].fillna(np.mean(data['driver_age']))
+data['policy_holder_age'] = data['policy_holder_age'].fillna(np.mean(data['policy_holder_age']))
 data['third_party_1_age'] = data['third_party_1_age'].fillna(np.mean(data['third_party_1_age']))
 data['third_party_2_age'] = data['third_party_2_age'].fillna(np.mean(data['third_party_2_age']))
 data['third_party_3_age'] = data['third_party_3_age'].fillna(np.mean(data['third_party_3_age']))
@@ -171,6 +180,16 @@ data['delta_claim_registered_policy_last_renewed'] = data['delta_claim_registere
 data['delta_policy_next_expiry_claim_registered'] = data['delta_policy_next_expiry_claim_registered'].fillna(np.mean(data['delta_policy_next_expiry_claim_registered']))
 data['delta_policy_last_renewed_start_date'] = data['delta_policy_last_renewed_start_date'].fillna(np.mean(data['delta_policy_last_renewed_start_date']))
 data['delta_policy_next_expiry_last_renewed'] = data['delta_policy_next_expiry_last_renewed'].fillna(np.mean(data['delta_policy_next_expiry_last_renewed']))
+
+
+#Group categories without fraudulent claims
+policy_coverage_type_groups = data.groupby('policy_coverage_type').agg({'fraud' : lambda x: sum(x=='Y')})
+data['policy_coverage_type']  = data['policy_coverage_type'].apply(lambda row : 'No fraud' if policy_coverage_type_groups.loc[row,'fraud'] == 0
+                                                                   else row)
+claim_vehicle_brand_groups = data.groupby('claim_vehicle_brand').agg({'fraud' : lambda x: sum(x=='Y')})
+data['claim_vehicle_brand']  = data['claim_vehicle_brand'].apply(lambda row : 'No fraud' if claim_vehicle_brand_groups.loc[row,'fraud'] == 0
+                                                                   else row)                                                                   
+
 
 #Drop unnecessary columns 
 data.drop(columns=columns_to_drop).to_csv('processed_data.csv', index = False)
