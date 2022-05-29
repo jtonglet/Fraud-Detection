@@ -8,7 +8,7 @@ from sklearn.preprocessing import StandardScaler, OneHotEncoder
 from sklearn.compose import ColumnTransformer
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import classification_report, roc_auc_score, confusion_matrix
+from sklearn.metrics import classification_report, roc_auc_score, confusion_matrix, plot_roc_curve
 import warnings
 warnings.filterwarnings('ignore')
 
@@ -16,7 +16,7 @@ warnings.filterwarnings('ignore')
 SEED = 42
 
 #Load data
-data = pd.read_csv('processed_data.csv')
+data = pd.read_csv('data/processed_data.csv')
 
 y = data['fraud'].apply(lambda row : 1 if row == 'Y' else 0)
 X = data.drop(columns = 'fraud')
@@ -67,3 +67,5 @@ print(' ')
 print('Classification Report Test Set')
 print(classification_report(y_test,pred_test))
 print('AUC Score Test Set : %s'%roc_auc_score(y_test,pred_test))
+plot_roc_curve(pipe_lr,X_test,y_test)
+plt.savefig('output/roc_curve.pdf',dpi=300)

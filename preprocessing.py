@@ -5,7 +5,7 @@ from datetime import datetime
 
 
 #Load the dataset
-data = pd.read_csv('fraud_dataset.csv', 
+data = pd.read_csv('data/fraud_dataset.csv', 
                    sep = ';', 
                    decimal = ',')
 
