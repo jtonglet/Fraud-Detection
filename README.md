@@ -14,7 +14,7 @@ Small fraud prediction project for the course Advanced Analytics @ KULeuven. Log
 
 ROC curve :
 
-![](output/roc_curve.pdf)
+![](output/roc_curve.pdf?raw=true)
 
 
 ##  TO DO
