@@ -8,7 +8,7 @@ from sklearn.preprocessing import StandardScaler, OneHotEncoder
 from sklearn.compose import ColumnTransformer
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import classification_report, roc_auc_score, confusion_matrix, plot_roc_curve
+from sklearn.metrics import roc_auc_score, f1_score, precision_score, recall_score, confusion_matrix, plot_roc_curve
 import warnings
 warnings.filterwarnings('ignore')
 
@@ -64,8 +64,9 @@ print('----Results----')
 print('Confusion Matrix Test Set')
 print(confusion_matrix(y_test,pred_test))
 print(' ')
-print('Classification Report Test Set')
-print(classification_report(y_test,pred_test))
-print('AUC Score Test Set : %s'%roc_auc_score(y_test,pred_test))
+print('Precision Test Set : %s'%precision_score(y_test,pred_test))
+print('Recall Test Set : %s'%recall_score(y_test,pred_test))
+print('F1 Test Set : %s'%f1_score(y_test,pred_test))
+print('AUC Test Set : %s'%roc_auc_score(y_test,pred_test))
 plot_roc_curve(pipe_lr,X_test,y_test)
-plt.savefig('output/roc_curve.pdf',dpi=300)
+plt.savefig('output/roc_curve.png',dpi=300)
