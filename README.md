@@ -12,6 +12,7 @@ Small fraud prediction project for the course Advanced Analytics @ KULeuven. Log
 | AUC   |   80.75  |
 
 **ROC Curve**
+
 Positive = fraudulent claim
 
   <img src="output/roc_curve.png" width="350" title="ROC Curve">
