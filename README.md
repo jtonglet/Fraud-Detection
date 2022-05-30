@@ -6,9 +6,9 @@ Small fraud prediction project for the course Advanced Analytics @ KULeuven. Log
 
 | Metric | Score |
 | --- | --- |
-| Precision |  4 |
-| Recall |  73 |
-| F1 |   7  |
+| Precision |  3.55 |
+| Recall |  72.58 |
+| F1 |   6.77  |
 | AUC   |   80.75  |
 
 **ROC Curve**
