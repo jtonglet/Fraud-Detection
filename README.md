@@ -12,6 +12,7 @@ Small fraud prediction project for the course Advanced Analytics @ KULeuven. Log
 | AUC   |   80.75  |
 
 
-ROC curve :
+<p align="center">
+  <img src="output/roc_curve.pnge" width="350" title="ROC Curve">
+</p>
 
-![](output/roc_curve.png?raw=true)
